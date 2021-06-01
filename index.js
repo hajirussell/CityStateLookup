@@ -61,10 +61,67 @@ function statesDropdownLoad() {
 }
 
 function onStateDropdownChanged() {
+    //find the city and state dropdowns
+    const stateDropdown = document.getElementById("stateDropdown");
+    const cityDropdown = document.getElementById("cityDropdown");
 
+    //remove previous message (not written yet)
+    const stateMessagePara = document.getElementById("stateMessagePara");
+    stateMessagePara.innerHTML = " ";
 
+    //remove city selection
+    cityDropdown.length = 0;
+
+    //find the selected state value
+    let selectedState = stateDropdown.value;
+
+    //did they pick "select one..."?
+    if (selectedState == " ") {
+        const stateMessagePara = document.getElementById("stateMessagePara");
+        stateMessagePara.innerHTML = " ";
+        return;
+    }
+    //find the state in the array under the correct state code
+    let matchingState = cityStates.find(arrayElement => arrayElement.stateAbbr == selectedState);
+
+    //add "select state first..." option
+    let selectOptionOne = document.createElement("option");
+    selectOptionOne.textContent = "Select one...";
+    selectOptionOne.value = "";
+    cityDropdown.appendChild(selectOptionOne);
+
+    //loop through the cities in the matching state
+    //and append options for them in the city dropdown
+    for (let i = 0; i < matchingState.cities.length; i++) {
+        let cityOption = document.createElement("option");
+        cityOption.textContent = matchingState.cities[i];
+        cityDropdown.appendChild(cityOption);
+    }
 }
 
 function onCityDropdownChanged() {
+    //find the dropdowns for state and city
+    const stateDropdown = document.getElementById("stateDropdown");
+    const cityDropdown = document.getElementById("cityDropdown");
 
+    //erase previous city message
+    const stateMessagePara = document.getElementById("stateMessagePara");
+    stateMessagePara.innerHTML = " ";
+
+    //get selected city
+    let selectedCity = cityDropdown.value;
+
+    //if the selection is "select one..." exit function
+    if (selectedCity == " ") {
+        return;
+    }
+
+    //get selected state
+    let selectedStateIndex = stateDropdown.selectedIndex;
+    let selectedState = stateDropdown.options[selectedStateIndex].text;
+
+    //display message
+    let displayMessage = "State: " + selectedState + "<br><br>" +
+                        "City: " + selectedCity;
+    stateMessagePara.innerHTML = displayMessage;
 }
