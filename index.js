@@ -77,8 +77,11 @@ function onStateDropdownChanged() {
 
     //did they pick "select one..."?
     if (selectedState == " ") {
-        const stateMessagePara = document.getElementById("stateMessagePara");
-        stateMessagePara.innerHTML = " ";
+        let selectOptionOne = document.createElement("option");
+        selectOptionOne.textContent = "Select state first...";
+        selectOptionOne.value = "";
+        cityDropdown.appendChild(selectOptionOne);
+
         return;
     }
     //find the state in the array under the correct state code
@@ -122,6 +125,6 @@ function onCityDropdownChanged() {
 
     //display message
     let displayMessage = "State: " + selectedState + "<br><br>" +
-                        "City: " + selectedCity;
+        "City: " + selectedCity;
     stateMessagePara.innerHTML = displayMessage;
 }
